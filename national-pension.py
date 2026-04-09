@@ -71,10 +71,16 @@ class PensionData():
     def get_data(self):
         return self.df
 
-@ st.cache_data
-def read_pensiondata():
-    data = PensionData('./data/national-pension.csv')
-    return data
+# 파일 업로더
+uploaded_file = st.file_uploader("national-pension.csv 파일을 업로드해주세요", type=['csv'])
+
+if uploaded_file is not None:
+    @st.cache_data
+    def read_pensiondata(file):
+        data = PensionData(file)
+        return data
+
+    data = read_pensiondata(uploaded_file)
 
 data = read_pensiondata()
 company_name = st.text_input('회사명을 입력해 주세요', placeholder='검색할 회사명 입력')
